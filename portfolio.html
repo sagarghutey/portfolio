@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sagar Ghutey — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12201b;
+    --paper:#f4f1e6;
+    --moss:#3f5c4a;
+    --moss-2:#5b7a5a;
+    --amber:#d69a3a;
+    --line:#12201b22;
+    --card:#ffffffb0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--amber); color:var(--ink);}
+
+  a{color:inherit;}
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
+
+  /* ---- Nav ---- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper)ee;
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:920px; margin:0 auto; padding:16px 28px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .nav-inner .mark{
+    font-family:'Space Mono', monospace; font-weight:700; font-size:15px;
+    letter-spacing:0.02em;
+  }
+  .nav-inner .mark span{color:var(--moss-2);}
+  .nav-links{display:flex; gap:22px; font-family:'IBM Plex Mono', monospace; font-size:13px;}
+  .nav-links a{text-decoration:none; opacity:0.75; transition:opacity .2s;}
+  .nav-links a:hover{opacity:1;}
+
+  /* ---- Hero ---- */
+  .hero{
+    position:relative;
+    padding:64px 0 40px;
+    overflow:hidden;
+  }
+  #trailCanvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; z-index:2;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--moss-2);
+    display:flex; align-items:center; gap:8px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:''; width:7px; height:7px; border-radius:50%;
+    background:var(--amber); display:inline-block;
+    box-shadow:0 0 0 3px #d69a3a33;
+  }
+  h1.name{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:clamp(38px, 7vw, 64px);
+    line-height:1.03;
+    letter-spacing:-0.01em;
+  }
+  h1.name .last{color:var(--moss);}
+  .role-line{
+    margin-top:18px;
+    font-size:18px;
+    max-width:560px;
+    color:var(--ink)cc;
+  }
+  .role-line strong{color:var(--moss); font-weight:600;}
+  .hero-hint{
+    margin-top:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink)77;
+  }
+  .contact-row{
+    margin-top:30px;
+    display:flex; gap:14px; flex-wrap:wrap;
+  }
+  .pill{
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    padding:9px 16px; border:1px solid var(--ink);
+    border-radius:100px; text-decoration:none;
+    transition:background .2s, color .2s;
+  }
+  .pill:hover{background:var(--ink); color:var(--paper);}
+  .pill.solid{background:var(--moss); border-color:var(--moss); color:var(--paper);}
+  .pill.solid:hover{background:var(--ink); border-color:var(--ink);}
+
+  /* ---- Section shell ---- */
+  section{padding:56px 0; border-top:1px solid var(--line);}
+  .section-head{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:30px;
+  }
+  .section-head .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:var(--moss-2);
+    border:1px solid var(--moss-2);
+    padding:3px 9px; border-radius:4px;
+  }
+  .section-head h2{
+    font-family:'Space Mono', monospace;
+    font-size:22px; font-weight:700;
+  }
+
+  /* ---- Projects ---- */
+  .project{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px 26px 24px;
+    margin-bottom:20px;
+  }
+  .project-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:16px; flex-wrap:wrap; margin-bottom:10px;
+  }
+  .project h3{
+    font-family:'Space Mono', monospace;
+    font-size:19px;
+  }
+  .project .meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px; color:var(--ink)88;
+    white-space:nowrap;
+  }
+  .project .badge{
+    display:inline-block; margin-top:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    background:#3f5c4a14; color:var(--moss);
+    padding:3px 9px; border-radius:4px;
+  }
+  .project p{margin-top:12px; font-size:14.5px; color:var(--ink)dd;}
+  .stack{
+    margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .stack span{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    border:1px solid var(--line); padding:3px 8px; border-radius:100px;
+    color:var(--ink)aa;
+  }
+
+  /* ---- Skills ---- */
+  .skill-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    gap:22px;
+  }
+  .skill-group h4{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    text-transform:uppercase; letter-spacing:0.08em; color:var(--moss-2);
+    margin-bottom:10px;
+  }
+  .skill-group ul{list-style:none;}
+  .skill-group li{
+    font-size:14.5px; padding:5px 0; border-bottom:1px dashed var(--line);
+  }
+
+  /* ---- Achievements ---- */
+  .achieve{
+    display:flex; gap:18px; align-items:flex-start;
+    background:var(--card); border:1px solid var(--line);
+    border-radius:10px; padding:20px 24px;
+  }
+  .achieve .num{
+    font-family:'Space Mono', monospace; font-weight:700; font-size:26px;
+    color:var(--amber);
+  }
+  .achieve h3{font-family:'Space Mono', monospace; font-size:16px; margin-bottom:4px;}
+  .achieve p{font-size:14px; color:var(--ink)cc;}
+
+  /* ---- Footer ---- */
+  footer{
+    padding:40px 0 60px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; color:var(--ink)88;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  @media (max-width:600px){
+    .nav-links{display:none;}
+    .achieve{flex-direction:column; gap:6px;}
+  }
+
+  /* ---- Animations ---- */
+  @keyframes riseIn{
+    from{opacity:0; transform:translateY(22px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .eyebrow, h1.name, .role-line, .hero-hint, .contact-row{
+    opacity:0;
+    animation:riseIn .7s cubic-bezier(.16,.9,.35,1) forwards;
+  }
+  .eyebrow{animation-delay:.05s;}
+  h1.name{animation-delay:.15s;}
+  .role-line{animation-delay:.32s;}
+  .hero-hint{animation-delay:.42s;}
+  .contact-row{animation-delay:.5s;}
+
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .7s cubic-bezier(.16,.9,.35,1), transform .7s cubic-bezier(.16,.9,.35,1);
+  }
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  .section-head .tag{transition:background .35s ease, color .35s ease;}
+  .reveal.in .section-head .tag{
+    animation:tagPulse .9s ease .1s;
+  }
+  @keyframes tagPulse{
+    0%{background:var(--amber); color:var(--paper); border-color:var(--amber);}
+    100%{background:transparent; color:var(--moss-2); border-color:var(--moss-2);}
+  }
+
+  .project{
+    transition:transform .35s cubic-bezier(.16,.9,.35,1), box-shadow .35s ease, border-color .35s ease;
+  }
+  .project:hover{
+    transform:translateY(-4px);
+    box-shadow:0 14px 30px -18px #12201b55;
+    border-color:var(--moss-2);
+  }
+  .project .badge{
+    transition:transform .25s ease;
+  }
+  .project:hover .badge{ transform:translateY(-1px) scale(1.03); }
+
+  .stack span{ transition:background .25s ease, color .25s ease, border-color .25s ease; }
+  .project:hover .stack span{
+    border-color:var(--moss-2);
+  }
+
+  .pill{ position:relative; overflow:hidden; }
+  .pill::after{
+    content:''; position:absolute; inset:0;
+    background:var(--ink); transform:translateX(-101%);
+    transition:transform .3s cubic-bezier(.16,.9,.35,1);
+    z-index:-1;
+  }
+
+  .achieve{ transition:transform .3s ease, box-shadow .3s ease; }
+  .achieve:hover{ transform:translateY(-3px); box-shadow:0 14px 30px -18px #12201b55; }
+  .achieve .num{
+    display:inline-block;
+    animation:numPop .6s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .reveal.in .achieve .num{ animation-play-state:running; }
+  @keyframes numPop{
+    0%{transform:scale(.6); opacity:0;}
+    100%{transform:scale(1); opacity:1;}
+  }
+
+  .skill-group{
+    opacity:0; transform:translateY(16px);
+    transition:opacity .55s ease, transform .55s ease;
+  }
+  .skill-group.in{opacity:1; transform:translateY(0);}
+
+  .nav-links a{ position:relative; }
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-4px;
+    width:0; height:1px; background:var(--moss-2);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+    .reveal, .skill-group, .eyebrow, h1.name, .role-line, .hero-hint, .contact-row{opacity:1 !important; transform:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="mark">sagar<span>.ghutey</span></div>
+    <nav class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <canvas id="trailCanvas"></canvas>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Final-year B.Tech CSE · GATE 2027 aspirant</div>
+    <h1 class="name">Sagar <span class="last">Ghutey</span></h1>
+    <p class="role-line">I build with <strong>Python</strong>, AI-assisted development, and <strong>computer vision</strong> — turning small ideas into working prototypes, from a hackathon-winning soil-scoring app to a hand-tracked drawing tool.</p>
+    <p class="hero-hint">move your cursor across this section — it tracks like a fingertip</p>
+    <div class="contact-row">
+      <a class="pill solid" href="mailto:sagarghutey@gmail.com">sagarghutey@gmail.com</a>
+      <a class="pill" href="https://github.com/sagarghutey" target="_blank" rel="noopener">github.com/sagarghutey</a>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">01</span>
+      <h2>Projects</h2>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <h3>SoilMate — AI-Assisted Soil Health Web App</h3>
+        <span class="meta">Team of 4 · 2025</span>
+      </div>
+      <span class="badge">🏆 Runner-Up, Sustainovation Hackathon 2025 — ₹50,000</span>
+      <p>A full-stack web app that captures soil photos via camera and scores soil quality using a rule-based color/texture image-analysis algorithm, then recommends suitable plants. Used AI coding tools to accelerate development, and shipped a bilingual English/Hindi interface for wider accessibility. Presented the product to judges as team speaker at INTIN, Noida.</p>
+      <div class="stack">
+        <span>React</span><span>TypeScript</span><span>Node.js</span><span>Express</span><span>AI-assisted dev</span><span>UI/UX</span>
+      </div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <h3>Finger Sensor Drawing System</h3>
+        <span class="meta">Individual · Python</span>
+      </div>
+      <p>A real-time, hand-tracking virtual drawing application. Implemented finger-tip landmark detection so users can draw on a live camera feed just by raising and moving their index finger — rendered as a transparent overlay on the video feed. The hero section above uses the same core idea: cursor tracking as a drawing trail.</p>
+      <div class="stack">
+        <span>Python</span><span>OpenCV</span><span>MediaPipe</span><span>Computer Vision</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">02</span>
+      <h2>Skills</h2>
+    </div>
+    <div class="skill-grid">
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <ul><li>Python (Basic → Intermediate)</li></ul>
+      </div>
+      <div class="skill-group">
+        <h4>Core CS</h4>
+        <ul>
+          <li>Data Structures & Algorithms</li>
+          <li>DBMS</li>
+          <li>Operating Systems</li>
+          <li>Computer Networks</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Tools & Practice</h4>
+        <ul>
+          <li>AI-assisted development</li>
+          <li>Prompt-based coding</li>
+          <li>Git (Basic)</li>
+          <li>VS Code</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Strengths</h4>
+        <ul>
+          <li>Quick learner · Teamwork</li>
+          <li>Leadership · Communication</li>
+          <li>Business-oriented thinking</li>
+          <li>Research mindset</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="achievements">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">03</span>
+      <h2>Achievements</h2>
+    </div>
+    <div class="achieve reveal">
+      <div class="num">₹50K</div>
+      <div>
+        <h3>Runner-Up — Sustainovation Hackathon 2025</h3>
+        <p>Won as part of a 4-member team for SoilMate, at INTIN, Noida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">04</span>
+      <h2>Contact</h2>
+    </div>
+    <p class="reveal" style="max-width:480px; font-size:15px; margin-bottom:20px;">Open to entry-level software development and data-oriented roles. Reach out by email or check my code on GitHub.</p>
+    <div class="contact-row reveal">
+      <a class="pill solid" href="mailto:sagarghutey@gmail.com">Email me</a>
+      <a class="pill" href="https://github.com/sagarghutey" target="_blank" rel="noopener">GitHub →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>© 2026 Sagar Ghutey</span>
+  <span>Built with intent, not templates.</span>
+</footer>
+
+<script>
+(function(){
+  const canvas = document.getElementById('trailCanvas');
+  const ctx = canvas.getContext('2d');
+  const hero = document.querySelector('.hero');
+  let w, h, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize(){
+    w = hero.clientWidth; h = hero.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let points = [];
+  const MAX_POINTS = 26;
+  let mouse = null;
+  let idle = true;
+
+  hero.addEventListener('mousemove', e=>{
+    const rect = hero.getBoundingClientRect();
+    mouse = {x: e.clientX - rect.left, y: e.clientY - rect.top};
+    idle = false;
+  });
+  hero.addEventListener('mouseleave', ()=>{ mouse = null; });
+
+  function drawLandmark(x, y, r, alpha){
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(214,154,58,${alpha})`;
+    ctx.fill();
+  }
+
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+
+    if(mouse){
+      points.push({x: mouse.x, y: mouse.y});
+      if(points.length > MAX_POINTS) points.shift();
+    } else if(points.length){
+      points.shift();
+    }
+
+    if(points.length > 1){
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      for(let i=1;i<points.length;i++){
+        const p0 = points[i-1], p1 = points[i];
+        const alpha = (i/points.length) * 0.55;
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.strokeStyle = `rgba(63,92,74,${alpha})`;
+        ctx.lineWidth = (i/points.length) * 3.2;
+        ctx.stroke();
+      }
+      const tip = points[points.length-1];
+      drawLandmark(tip.x, tip.y, 5, 0.85);
+      if(points.length > 4){
+        const knuckle = points[points.length-5];
+        drawLandmark(knuckle.x, knuckle.y, 3, 0.4);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+// Scroll reveal
+(function(){
+  const targets = document.querySelectorAll('.reveal, .skill-group');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach((entry, i)=>{
+      if(entry.isIntersecting){
+        setTimeout(()=> entry.target.classList.add('in'), i*60);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  targets.forEach(t=> io.observe(t));
+})();
+</script>
+
+</body>
+</html>
